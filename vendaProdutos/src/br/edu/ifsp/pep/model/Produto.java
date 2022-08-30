@@ -26,7 +26,16 @@ public class Produto implements Serializable{
     
     @Column (name = "preco", nullable = false, precision = 8, scale = 2)
     private BigDecimal preco;
-    
+
+    public Produto(String descricao, int quantidade, BigDecimal preco) {
+        
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.preco = preco;
+    }
+
+    public Produto() {
+    }
 
     public int getId() {
         return id;

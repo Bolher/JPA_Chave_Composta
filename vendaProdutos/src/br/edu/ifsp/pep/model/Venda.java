@@ -21,6 +21,13 @@ public class Venda implements Serializable{
     @Column (name = "data")
     private Date data;
 
+    public Venda( Date data) {
+        this.data = data;
+    }
+
+    public Venda() {
+    }
+   
     public int getId() {
         return id;
     }
@@ -36,5 +43,7 @@ public class Venda implements Serializable{
     public void setData(Date data) {
         this.data = data;
     }
+    
+    
     
 }
