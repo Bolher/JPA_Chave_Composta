@@ -11,11 +11,11 @@ import tablePerClassModel.Pessoa;
 
 public class Principal {
     public static void main(String[] args) {
-        Pessoa p1 = new Pessoa();
-        p1.setNome("João");
+        //Pessoa p1 = new Pessoa();
+        //p1.setNome("João");
         
-        PessoaDAO pessoaDAO = new PessoaDAO();
-        pessoaDAO.inserir(p1);
+        //PessoaDAO pessoaDAO = new PessoaDAO();
+        //pessoaDAO.inserir(p1);
         
         Funcionario f1 = new Funcionario();
         f1.setNome("Maria");

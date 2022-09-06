@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "pessoa")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorValue(value = "PESSOA")
-public class Pessoa implements Serializable{
+public abstract class Pessoa implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
