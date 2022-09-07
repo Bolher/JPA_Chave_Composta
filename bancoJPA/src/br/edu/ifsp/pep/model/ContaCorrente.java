@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "conta corrente")
 @IdClass(ContaCorrenteaPK.class)
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorValue(value = "CONTA CORRENTE")
 public class ContaCorrente implements Serializable{
     @Id
@@ -29,6 +29,15 @@ public class ContaCorrente implements Serializable{
     @Column (name = "saldo",precision = 8, scale = 2)
     private BigDecimal saldo;
 
+    public ContaCorrente(String numeroConta, String NumeroAgencia, BigDecimal saldo) {
+        this.numeroConta = numeroConta;
+        this.NumeroAgencia = NumeroAgencia;
+        this.saldo = saldo;
+    }
+
+    public ContaCorrente() {
+    }
+    
     public String getNumeroConta() {
         return numeroConta;
     }

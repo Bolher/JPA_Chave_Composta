@@ -20,5 +20,11 @@ public class ContaPoupanca extends ContaCorrente{
     public void setDiaAniversario(int diaAniversario) {
         this.diaAniversario = diaAniversario;
     }
-    
+
+    public ContaPoupanca() {
+    }
+
+    public ContaPoupanca(int diaAniversario) {
+        this.diaAniversario = diaAniversario;
+    }
 }
