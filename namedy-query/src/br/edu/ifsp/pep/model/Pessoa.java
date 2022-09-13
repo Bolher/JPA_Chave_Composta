@@ -18,7 +18,7 @@ import javax.persistence.Temporal;
 @Table(name = "pessoa")
 @NamedQueries({
     @NamedQuery(name = "Pessoa.buscarPorId", query = "SELECT p FROM Pessoa p WHERE p.id = :id"),
-    @NamedQuery(name = "Pessoa.buscraPorNome", query = "SELECT p FROM Pessoa p WHERE p.nome LIKE :nome"),
+    @NamedQuery(name = "Pessoa.buscarPorNome", query = "SELECT p FROM Pessoa p WHERE p.nome LIKE :nome"),
     @NamedQuery(name = "Pessoa.buscarPorSalario", query = "SELECT P FROM Pessoa P WHERE P.salario > :salario")
 })
 public class Pessoa implements Serializable{
