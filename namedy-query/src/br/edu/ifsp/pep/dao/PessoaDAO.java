@@ -8,7 +8,6 @@ import br.edu.ifsp.pep.model.Pessoa;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
