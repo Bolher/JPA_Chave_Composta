@@ -3,7 +3,6 @@ package br.edu.ifsp.pep.dao;
 import br.edu.ifsp.pep.modelo.Veiculo;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
 /**
  *
@@ -16,22 +15,33 @@ public class VeiculoDAO extends AbstractDAO<Veiculo> {
                 .createNamedQuery("Veiculo.buscarTodos", Veiculo.class)
                 .getResultList();
     }
+    
+    public List<Veiculo> buscarVeiculosDisponiveisParaLocacao() {
+        return getEntityManager()
+                .createNamedQuery("Veiculo.buscarDisponiveisParaLocacao", Veiculo.class)
+                .getResultList();
+    }
+    
 
     @Override
-    public void inserir(Veiculo veiculo) {
+    public void inserir(Veiculo veiculo) throws Exception {
 
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
 
-        try {
-            em.createNamedQuery("Veiculo.buscarPorPlacaECidade",
-                    Veiculo.class)
-                    .setParameter("placa", veiculo.getPlaca())
-                    .setParameter("cidade", veiculo.getCidade())
-                    .getSingleResult();
-                    System.out.println("veiculo já existente com essa placa :" +veiculo.getPlaca() + "e essa cidade: "+ veiculo.getCidade());
-        } catch (NoResultException nre) {
+        List<Veiculo> veiculos = em.createNamedQuery(
+                "Veiculo.buscarPorPlacaECidade",
+                Veiculo.class)
+                .setParameter("placa", veiculo.getPlaca())
+                .setParameter("cidade", veiculo.getCidade())
+                .getResultList();
+        if (veiculos == null || veiculos.isEmpty()) {
             em.persist(veiculo);
+        } else {
+            throw new Exception(
+                    "Já existe um Veículo com a placa "
+                    + veiculo.getPlaca()
+                    + " na cidade " + veiculo.getCidade());
         }
 
         em.getTransaction().commit();
