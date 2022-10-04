@@ -20,6 +20,7 @@ public class TipoVeiculoView extends javax.swing.JDialog {
     
     private TipoVeiculoDAO tipoVeiculoDAO = new TipoVeiculoDAO();
     private List<TipoVeiculo> tiposVeiculos;
+    private TipoVeiculo tipoveiculo; //ultilizando para inserir ou alterar
     
     /**
      * Creates new form TipoVeiculoView
@@ -36,14 +37,17 @@ public class TipoVeiculoView extends javax.swing.JDialog {
         bInserir.setEnabled(enable);
         bAlterar.setEnabled(enable);
         bExcluir.setEnabled(enable);
+        bPesquisar.setEnabled(enable);
         bGravar.setEnabled(!enable);
-        bCancelar.setEnabled(!enable);
+        bCancelar.setEnabled(!enable);     
     }
     
     private void setEnableCampoTexto(boolean enable){
         tfNome.setEditable(enable);
         tfValorDiaria.setEnabled(enable);
-    }
+        tfPesquisar.setEnabled(!enable);
+        jTabela.setEnabled(!enable);
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -68,7 +72,7 @@ public class TipoVeiculoView extends javax.swing.JDialog {
         bExcluir = new javax.swing.JButton();
         bGravar = new javax.swing.JButton();
         bCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lNomePesquisar = new javax.swing.JLabel();
         tfPesquisar = new javax.swing.JTextField();
         bPesquisar = new javax.swing.JButton();
 
@@ -103,10 +107,8 @@ public class TipoVeiculoView extends javax.swing.JDialog {
                 "Codigo", "Nome", "Valor da Diaria"
             }
         ));
-        jTabela.setColumnSelectionAllowed(true);
         jTabela.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTabela);
-        jTabela.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         pBotoes.setBackground(new java.awt.Color(51, 255, 51));
         pBotoes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -129,6 +131,11 @@ public class TipoVeiculoView extends javax.swing.JDialog {
 
         bExcluir.setBackground(new java.awt.Color(255, 204, 255));
         bExcluir.setText("Excluir");
+        bExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExcluirActionPerformed(evt);
+            }
+        });
 
         bGravar.setBackground(new java.awt.Color(255, 204, 204));
         bGravar.setText("Gravar");
@@ -140,6 +147,11 @@ public class TipoVeiculoView extends javax.swing.JDialog {
 
         bCancelar.setBackground(new java.awt.Color(204, 255, 204));
         bCancelar.setText("Cancelar");
+        bCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pBotoesLayout = new javax.swing.GroupLayout(pBotoes);
         pBotoes.setLayout(pBotoesLayout);
@@ -171,7 +183,7 @@ public class TipoVeiculoView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jLabel1.setText("Nome :");
+        lNomePesquisar.setText("Nome :");
 
         tfPesquisar.setBackground(new java.awt.Color(0, 153, 153));
         tfPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +217,7 @@ public class TipoVeiculoView extends javax.swing.JDialog {
                         .addGroup(pGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lNome, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lValorDiaria, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lNomePesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(73, 73, 73)
                         .addGroup(pGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(tfNome)
@@ -234,7 +246,7 @@ public class TipoVeiculoView extends javax.swing.JDialog {
                     .addComponent(tfValorDiaria))
                 .addGap(39, 39, 39)
                 .addGroup(pGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lNomePesquisar)
                     .addComponent(tfPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bPesquisar))
                 .addGap(18, 18, 18)
@@ -271,6 +283,9 @@ public class TipoVeiculoView extends javax.swing.JDialog {
             this.setEnabledBotoes(false);
         
             //carregar os dados para os cmapos de texto
+            tipoveiculo = this.tiposVeiculos.get(jTabela.getSelectedRow());
+            tfNome.setText(tipoveiculo.getNome());
+            tfValorDiaria.setText(tipoveiculo.getValorDiaria().toString());
             
             tfNome.requestFocus();
         }else{
@@ -291,17 +306,37 @@ public class TipoVeiculoView extends javax.swing.JDialog {
     private void bGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGravarActionPerformed
         //inserir
         String nome = tfNome.getText();
+        BigDecimal valorDiaria = new BigDecimal(tfValorDiaria.getText());
+        String mensagem = "tipo veiculo cadastrado";
         if(nome.length() > 3){
-            BigDecimal valorDiaria = new BigDecimal(tfValorDiaria.getText());
-            TipoVeiculo tipoVeiculo = new TipoVeiculo(nome, BigDecimal.ZERO);
+            
+            //adicionando
+            if(tipoveiculo == null){
+                tipoveiculo = new TipoVeiculo(nome, valorDiaria);
+            }
+            //alterando
+            else{
+                tipoveiculo.setNome(nome);
+                tipoveiculo.setValorDiaria(valorDiaria);
+                mensagem = "tipo veiculo alterado";
+            }
+            
             try {
-                tipoVeiculoDAO.inserir(tipoVeiculo);
-                JOptionPane.showMessageDialog(null, "Tipo de veiculo cadastrado.");
+                tipoVeiculoDAO.alterar(tipoveiculo);
+                JOptionPane.showMessageDialog(null, mensagem);
+                
+                tfNome.setText("");
+                tfValorDiaria.setText("");
+                
+                bPesquisarActionPerformed(evt);
+                
+                tipoveiculo = null;
                 
                 this.setEnabledBotoes(true);
                 this.setEnableCampoTexto(false);
+                
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Eroo", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Informe pelo menos 4 caracteres no campo nome.", "Atenção", JOptionPane.WARNING_MESSAGE);
@@ -317,6 +352,29 @@ public class TipoVeiculoView extends javax.swing.JDialog {
         tiposVeiculos = tipoVeiculoDAO.findByNome(tfPesquisar.getText());
         this.atualizarTabela();
     }//GEN-LAST:event_bPesquisarActionPerformed
+
+    private void bExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExcluirActionPerformed
+        if(jTabela.getSelectedRow() >= 0){
+            TipoVeiculo tipoVeiculoSelecionado = this.tiposVeiculos.get(jTabela.getSelectedRow());
+            try {
+                tipoVeiculoDAO.remover(tipoVeiculoSelecionado);
+                JOptionPane.showMessageDialog(null, "tipo de veiculo selecionado foi excluido");    
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "O tipo de veiculo não pode ser excluido", "Alerta",JOptionPane.WARNING_MESSAGE);
+            }
+            
+            this.bPesquisarActionPerformed(evt);
+        }else{
+            JOptionPane.showMessageDialog(null, "selecione um tipo de veiculo", "Alerta",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_bExcluirActionPerformed
+
+    private void bCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelarActionPerformed
+        tfNome.setText("");
+        tfValorDiaria.setText("");
+        this.setEnableCampoTexto(false);
+        this.setEnabledBotoes(true);
+    }//GEN-LAST:event_bCancelarActionPerformed
 
     private void atualizarTabela(){
         
@@ -376,10 +434,10 @@ public class TipoVeiculoView extends javax.swing.JDialog {
     private javax.swing.JButton bGravar;
     private javax.swing.JButton bInserir;
     private javax.swing.JButton bPesquisar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTabela;
     private javax.swing.JLabel lNome;
+    private javax.swing.JLabel lNomePesquisar;
     private javax.swing.JLabel lTitulo;
     private javax.swing.JLabel lValorDiaria;
     private javax.swing.JPanel pBotoes;
