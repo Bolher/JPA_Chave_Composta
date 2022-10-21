@@ -17,14 +17,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tipo_veiculo")
-@NamedQueries( value = {
-        @NamedQuery(name = "TipoVeiculo.findByNome", 
-                query = "SELECT t FROM TipoVeiculo t WHERE UPPER(t.nome) LIKE UPPER(:nome)"),
-    
-        @NamedQuery(name = "TipoVeiculo.buscarTodos", 
-                query="SELECT t FROM TipoVeiculo t"),
-
-})
+@NamedQueries({
+    @NamedQuery(name = "TipoVeiculo.findByNome",
+            query = "SELECT t FROM TipoVeiculo t WHERE UPPER(t.nome) LIKE UPPER(:nome)"),
+    @NamedQuery(name = "TipoVeiculo.findAll",
+            query = "SELECT t FROM TipoVeiculo t")})
 public class TipoVeiculo implements Serializable {
 
     @Id
@@ -72,10 +69,7 @@ public class TipoVeiculo implements Serializable {
 
     @Override
     public String toString() {
-        return getNome();
+        return nome;
     }
-    
-    
+
 }
-
-

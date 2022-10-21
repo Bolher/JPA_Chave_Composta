@@ -3,8 +3,6 @@ package br.edu.ifsp.pep.dao;
 import br.edu.ifsp.pep.modelo.Veiculo;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 
 /**
  *
@@ -21,13 +19,6 @@ public class VeiculoDAO extends AbstractDAO<Veiculo> {
     public List<Veiculo> buscarVeiculosDisponiveisParaLocacao() {
         return getEntityManager()
                 .createNamedQuery("Veiculo.buscarDisponiveisParaLocacao", Veiculo.class)
-                .getResultList();
-    }
-    
-    public List<Veiculo> buscarModelo(String modelo) {
-        return getEntityManager()
-                .createNamedQuery("Veiculo.findByModelo", Veiculo.class)
-                .setParameter("modelo", "%" + modelo + "%")
                 .getResultList();
     }
     

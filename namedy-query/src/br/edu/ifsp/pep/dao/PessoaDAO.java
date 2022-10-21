@@ -23,7 +23,7 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
     }
 
     @Override
-    public void inserir(Pessoa entity) {
+    public void inserir(Pessoa entity) throws Exception {
         super.inserir(entity); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 

@@ -17,4 +17,11 @@ public class TipoVeiculoDAO extends AbstractDAO<TipoVeiculo>{
                 
     }
     
+    public List<TipoVeiculo> buscarTodos() {
+        return getEntityManager()
+                .createNamedQuery("TipoVeiculo.buscarTodos", TipoVeiculo.class)
+                .getResultList();
+    }
+    
+    
 }
