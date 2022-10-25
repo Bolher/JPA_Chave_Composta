@@ -47,7 +47,7 @@ public class VeiculoView extends javax.swing.JDialog {
     private void carregarComoBox(){
         DefaultComboBoxModel modelo = (DefaultComboBoxModel) cTipo.getModel();
         
-        modelo.addAll(tipoVeiculoDAO.buscarTodos());
+        //modelo.addAll(tipoVeiculoDAO.buscarTodos());
     }
 
     /**

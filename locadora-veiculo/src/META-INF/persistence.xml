@@ -9,10 +9,11 @@
     <class>br.edu.ifsp.pep.modelo.VeiculoLocado</class>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/db_aula"/>
-      <property name="javax.persistence.jdbc.user" value="ifsp"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="ifsp"/>
+      <property name="javax.persistence.jdbc.password" value="Pa168645!"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>
