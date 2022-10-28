@@ -5,7 +5,7 @@
 package br.edu.ifsp.pep.visao;
 
 import br.edu.ifsp.pep.dao.VeiculoDAO;
-import br.edu.ifsp.pep.modelo.Locacao_;
+import br.edu.ifsp.pep.modelo.Locacao;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 

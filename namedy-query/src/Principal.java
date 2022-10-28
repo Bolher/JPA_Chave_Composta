@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Principal {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         PessoaDAO pessoaDAO = new PessoaDAO();
         for (int i = 0; i < 10; i++) {
             Pessoa p = new Pessoa("pessoa"+i, new Date(), new BigDecimal(1000 * ++i));
@@ -22,7 +22,7 @@ public class Principal {
         //pessoaDAO.verificarEstadoDoCicloDeVida();
     }
     
-    private static void testeNamedQueries(){
+    private static void testeNamedQueries() throws Exception{
        PessoaDAO pessoaDAO = new PessoaDAO();
         
         for (int i = 0; i < 10; i++) {
