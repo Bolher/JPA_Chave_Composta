@@ -1,5 +1,6 @@
 package br.edu.ifsp.pep.dao;
 
+import br.edu.ifsp.pep.modelo.TipoVeiculo;
 import br.edu.ifsp.pep.modelo.Veiculo;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -31,6 +32,21 @@ public class VeiculoDAO extends AbstractDAO<Veiculo> {
                 .getResultList();
     }
     
+    
+    public List<Veiculo> buscarModeloTipo(String modelo, TipoVeiculo id) {
+        return getEntityManager()
+                .createNamedQuery("Veiculo.findByModeloAndTipo", Veiculo.class)
+                .setParameter("modelo", "%" + modelo + "%")
+                .setParameter("id", id)
+                .getResultList();
+    }
+    
+    public List<Veiculo> buscarTipo(TipoVeiculo id) {
+        return getEntityManager()
+                .createNamedQuery("Veiculo.findByTipo", Veiculo.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
 
     @Override
     public void inserir(Veiculo veiculo) throws Exception {

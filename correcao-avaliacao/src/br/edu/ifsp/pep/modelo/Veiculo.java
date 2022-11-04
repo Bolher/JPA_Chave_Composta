@@ -1,7 +1,6 @@
 package br.edu.ifsp.pep.modelo;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +34,13 @@ import javax.persistence.UniqueConstraint;
                 query = "SELECT v FROM Veiculo v WHERE v.cidade = :cidade AND v.placa = :placa"),
         
         @NamedQuery(name = "Veiculo.findByModelo", 
-                query = "SELECT v FROM Veiculo v WHERE UPPER(v.modelo) LIKE UPPER(:modelo)")
+                query = "SELECT v FROM Veiculo v WHERE UPPER(v.modelo) LIKE UPPER(:modelo)"),
+        
+        @NamedQuery(name = "Veiculo.findByModeloAndTipo", 
+                query = "SELECT v FROM Veiculo v WHERE UPPER(v.modelo) LIKE UPPER(:modelo) AND v.tipo = :id"),
+        
+        @NamedQuery(name = "Veiculo.findByTipo", 
+                query = "SELECT v FROM Veiculo v WHERE v.tipo = :id")
 
 })
 public class Veiculo implements Serializable {
